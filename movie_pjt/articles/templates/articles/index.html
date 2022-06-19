@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block extrahead %}
+  <style>
+    *
+    {
+      margin: 0; 
+      padding: 0;
+    }
+    body
+    {
+      min-height: 100vh;
+      background: #000;
+    }
+  </style>
+{% endblock extrahead %}
+
+{% block content %}
+
+  <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'movies:index' %}">Today's Movie</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'movies:index' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'articles:index' %}">Community</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'rates:index' %}">Rates</a>
+          </li>
+        </ul>
+        <div class="d-flex">
+          <a class="me-2 btn btn-outline-info" href="{% url 'accounts:profile' user.username %}">Profile</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="container-fluid pt-3">
+    <h1 class="text-white text-center" style="font-size: 48px; font-family: 'LeferiPoint-SpecialA';">자유 게시판</h1>
+    <div class="text-end">
+      {% if request.user.is_authenticated %}
+        <a href="{% url 'articles:create' %}" class="btn btn-info btn-md"><span class="text-black" style="font-weight: bold;">CREATE</span></a>
+      {% else %}
+        <a href="{% url 'accounts:login' %}" class="btn btn-info btn-md"><span class="text-black" style="font-weight: bold;">CREATE</span></a>
+      {% endif %}
+    </div>
+    <hr class="text-white">
+
+    <hr class="text-white">
+    {% for article in articles %}
+    <div class="text-white">
+      <a href="{% url 'articles:detail' article.pk %}" style="text-decoration: none;">
+        <h3 class="text-white">{{ article.title }}</h3>
+        <h6 class="text-white">작성자 : {{ article.user }}</h6>
+        <h6 class="text-white">작성시각 : {{article.created_at}}</h6>
+      </a>
+      <a href="{% url 'articles:detail' article.pk %}" class="btn btn-light btn-sm"><span class="text-black" style="font-weight: bold;">DETAIL</span></a>
+      <hr>
+    </div>
+    {% endfor %}
+  </div>
+
+  <nav>
+  <ul class="pagination pt-3 justify-content-center">
+    {% if articles.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ articles.previous_page_number }}"> {{ articles.previous_page_number }}</a></li>
+    {% endif %}
+    
+    {% comment %} <li class="page-item active">{{ movies.number-1 }}</li> {% endcomment %}
+    <li class="page-item active"><a class="page-link" href="">{{ articles.number }}</a> </li>
+    {% comment %} <li class="page-item active">{{ movies.number+1 }}</li> {% endcomment %}
+    
+    {% if articles.has_next %}
+    <li class="page-item"><a class="page-link" href="?page={{ articles.next_page_number }}"> {{ articles.next_page_number }}</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ articles.paginator.num_pages }}">last &raquo;</a></li>
+    {% endif %}
+  </ul>
+  </nav>
+
+
+{% endblock content %}

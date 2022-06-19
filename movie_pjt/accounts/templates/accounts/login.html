@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block extrahead %}
+  <style>
+    *
+    {
+      margin: 0; 
+      padding: 0;
+    }
+    body
+    {
+      min-height: 100vh;
+      background: #000;
+    }
+  </style>
+{% endblock extrahead %}
+
+{% block content %}
+<div style="padding-top: 200px;">
+
+  
+  <div class="container text-center">
+    
+    <form action="" method="POST">
+      {% csrf_token %}
+      <div class="card container text-start" style="width: 18rem; margin-bottom: 10px;padding-left: 0px;padding-right: 0px;">
+        <h5 class="card-header text-center">LOGIN</h5>
+        <div class="card-body">
+          <p class="my-2 card-text" style="font-family: consolas;">ID: {{ form.username }}</p>
+          <p class="my-2 card-text" style="font-family: consolas;">PW: {{ form.password }}</p>
+        </div>
+      </div>
+      {% comment %} {{ form.as_p }} {% endcomment %}
+      <input type="submit" class="btn btn-light btn-lg" style="width: 18rem; margin-bottom: 10px" value="로그인">
+    </form>
+    
+    <a href="{% url 'accounts:signup'%}" type="button" class="btn btn-outline-dark btn-lg" style="width:140px; display: inline"><span class="text-white ">회원가입</span></a>
+    <a href="{% url 'movies:index'%}" type="button" class="btn btn-outline-dark btn-lg" style="width:140px; display: inline"><span class="text-white ">뒤로가기</span></a>
+    
+    
+  </div>
+
+</div>
+  
+{% endblock content %}

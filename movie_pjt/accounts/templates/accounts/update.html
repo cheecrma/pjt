@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block extrahead %}
+  <style>
+    *
+    {
+      margin: 0; 
+      padding: 0;
+    }
+    body
+    {
+      min-height: 100vh;
+      background: #000;
+    }
+  </style>
+{% endblock extrahead %}
+
+{% block content %}
+<div style="padding-top: 100px">
+
+  <div class="container text-center">
+    
+    <form action="{% url 'accounts:update' %}" method="POST">
+      {% csrf_token %}
+      <div class="card container text-start" style="width: 18rem; margin-bottom: 10px;padding-left: 0px;padding-right: 0px;">
+        <h5 class="card-header text-center">UPDATE</h5>
+        <div class="card-body" style="font-family: consolas;">
+          <p class="my-2 card-text">ID {{ form.username }}</p>
+          <p class="my-2 card-text">EMAIL {{ form.email }}</p>
+          <p class="my-2 card-text">현재 위치 {{ form.region }}</p>
+          <p class="my-2 card-text">좋아하는 장르 {{ form.genre_like }}</p>
+          <p class="my-2 card-text">싫어하는 장르 {{ form.genre_dislike }}</p>
+          <a href="{% url 'accounts:change_password' %}" class="btn btn-dark" style="float: right">비밀번호 변경</a>
+        </div>
+      </div>
+      <input type="submit" class="btn btn-light btn-lg" style="width: 18rem; margin-bottom: 10px" value="정보수정">
+    </form>
+    <form action="{% url 'accounts:delete' %}" method="POST" style="display: inline">
+      {% csrf_token %}
+      <input type="submit" value="회원탈퇴" class="btn btn-secondary btn-lg" style="width: 9rem;">
+    </form>
+    
+    <a href="{% url 'accounts:profile' user.username %}" type="button" class="btn btn-outline-dark btn-lg" style="width: 9rem; display: inline"><span class="text-white ">뒤로가기</span></a>
+    
+  </div>
+</div>
+    
+{% endblock content %}
